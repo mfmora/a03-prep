@@ -16,10 +16,19 @@ class MovieDatabase < SQLite3::Database
   end
 end
 
+
 # List the films in which 'Chuck Norris' has appeared; order by movie
 # title.
 def bearded_films
   MovieDatabase.execute(<<-SQL)
+    SELECT
+      movies.title
+    FROM
+      movies
+    JOIN castings ON movies.id = castings.movie_id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Chuck Norris'
+    ORDER BY movies.title
   SQL
 end
 
@@ -27,6 +36,7 @@ end
 # order by the actor's name.
 def zombie_cast
   MovieDatabase.execute(<<-SQL)
+  
   SQL
 end
 
@@ -35,6 +45,7 @@ end
 # >2 movies. Order by year. Note the 'V' is capitalized.
 def biggest_years_for_little_danny
   MovieDatabase.execute(<<-SQL)
+
   SQL
 end
 
