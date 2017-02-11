@@ -78,6 +78,12 @@ end
 # films. Order by movie title.
 def who_is_florence_lawrence
   MovieDatabase.execute(<<-SQL)
+    SELECT movies.title, actors.name
+    FROM movies
+    JOIN castings ON movies.id = castings.movie_id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE movies.yr = 1908 AND castings.ord = 1
+    ORDER BY movies.title
   SQL
 end
 
