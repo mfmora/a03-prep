@@ -64,6 +64,13 @@ end
 # star role. Order by movie title.
 def more_cage_please
   MovieDatabase.execute(<<-SQL)
+    SELECT movies.title
+    FROM movies
+    JOIN castings ON movies.id = castings.movie_id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Nicolas Cage' AND
+      castings.ord != 1
+    ORDER BY movies.title
   SQL
 end
 
