@@ -10,8 +10,12 @@
 
 class Executive < ActiveRecord::Base
 
-  belongs_to :board_memberships,
+  belongs_to :memberships,
   primary_key: :id,
   foreign_key: :member_id,
   class_name: :BoardMembership
+
+  has_many :boards,
+    through: :memberships,
+    source: :board
 end
