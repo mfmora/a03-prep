@@ -41,7 +41,7 @@ def zombie_cast
     JOIN castings ON actors.id = castings.actor_id
     JOIN movies ON castings.movie_id = movies.id
     WHERE movies.title = 'Zombies of the Stratosphere'
-    GROUP BY actors.name
+    ORDER BY actors.name
   SQL
 end
 
@@ -50,7 +50,13 @@ end
 # >2 movies. Order by year. Note the 'V' is capitalized.
 def biggest_years_for_little_danny
   MovieDatabase.execute(<<-SQL)
-
+    SELECT movies.yr, COUNT(movies.id) AS count
+    FROM movies
+    JOIN castings ON movies.id = castings.movie_id
+    JOIN actors ON castings.actor_id = actors.id
+    WHERE actors.name = 'Danny DeVito'
+    GROUP BY movies.yr
+    HAVING COUNT(movies.id) > 2
   SQL
 end
 
