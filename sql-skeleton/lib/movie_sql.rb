@@ -118,5 +118,16 @@ end
 # 'Chris Farley' played in.
 def chris_is_missed
   MovieDatabase.execute(<<-SQL)
+    SELECT chris_movies.title as title, actors.name as name
+    FROM actors
+    JOIN castings ON actors.id = castings.actor_id
+    JOIN (
+      SELECT movies.*
+      FROM movies
+      JOIN castings ca2 ON movies.id = ca2.movie_id
+      JOIN actors ac2 ON ca2.actor_id = ac2.id
+      WHERE ac2.name = 'Chris Farley'
+    ) chris_movies ON castings.movie_id = chris_movies.id
+    WHERE castings.ord = 1
   SQL
 end
