@@ -103,6 +103,14 @@ end
 # starring roles. Order by actor name.
 def twenty_roles
   MovieDatabase.execute(<<-SQL)
+    SELECT actors.name
+    FROM actors
+    JOIN castings ON actors.id = castings.actor_id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE castings.ord = 1
+    GROUP BY actors.id
+    HAVING COUNT(movies.id) = 20
+    ORDER BY actors.name
   SQL
 end
 
