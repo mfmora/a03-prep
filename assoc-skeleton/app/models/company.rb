@@ -37,4 +37,8 @@ class Company < ActiveRecord::Base
   has_many :watch_lists,
     through: :watch_list_items,
     source: :watch_list
+
+  has_many :watchers,
+    through: :watch_list,
+    source: :user
 end
