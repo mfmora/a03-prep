@@ -92,6 +92,10 @@ end
 # 'num_bad_actors'.
 def count_bad_actors
   MovieDatabase.execute(<<-SQL)
+  SELECT COUNT(actors.id) as num_bad_actors
+  FROM actors
+  LEFT OUTER JOIN castings ON actors.id = castings.actor_id
+  WHERE castings.actor_id IS NULL
 SQL
 end
 
