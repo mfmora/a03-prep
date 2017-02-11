@@ -36,7 +36,12 @@ end
 # order by the actor's name.
 def zombie_cast
   MovieDatabase.execute(<<-SQL)
-  
+    SELECT actors.name
+    FROM actors
+    JOIN castings ON actors.id = castings.actor_id
+    JOIN movies ON castings.movie_id = movies.id
+    WHERE movies.title = 'Zombies of the Stratosphere'
+    GROUP BY actors.name
   SQL
 end
 
